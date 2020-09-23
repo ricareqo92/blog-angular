@@ -1,0 +1,79 @@
+<div class="loading" *ngIf="!posts">
+        Cargando...
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="container-fluid mt-3" *ngIf="posts">
+          <div id="user-card">
+              <div class="avatar_mask_profile float-left mr-3">
+                  <img src="{{'http://127.0.0.1:8000/images/' + identity.image}}" class="avatar_nav">
+              </div>
+              <div class="data_mask float-left" *ngIf="user">
+                  <h1>Perfil de {{user.name + ' ' + user.surname}} 
+                    <button *ngIf="!(user.id == identity.sub) && !following" type="button" class="btn btn-primary" (click)="follow()">Seguir</button>
+                  </h1>
+                  <p [innerHTML]="user.description"></p>
+              </div>
+              <div class="clearfix"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <!--LISTADO DE ENTRADAS-->
+        <ul class="nav nav-tabs mb-3">
+          <li class="nav-item">
+            <a class="nav-link" [ngClass]="{'active': activeTab == 'information'}" (click)="changeTab('information')">Información</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [ngClass]="{'active': activeTab == 'posts'}" (click)="changeTab('posts')">Artículos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [ngClass]="{'active': activeTab == 'followers'}" (click)="changeTab('followers')">Seguidores</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [ngClass]="{'active': activeTab == 'following'}" (click)="changeTab('following')">Siguiendo</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [ngClass]="{'active': activeTab == 'favorite'}" (click)="changeTab('favorite')">Favoritos</a>
+          </li>
+        </ul>
+        <app-profile-info
+          *ngIf="activeTab == 'information'"
+          [description]='user.description'
+        >
+        </app-profile-info>
+  
+        <app-post-list
+          *ngIf="activeTab == 'posts'"
+          [posts]="posts"
+          [identity]="identity"
+          [url]="url"
+          (deletePost)="deletePost($event)"
+        >
+        </app-post-list>
+  
+        <app-follower-list
+          *ngIf="activeTab == 'followers'"
+          [followers]='followersList'
+        >
+        </app-follower-list>
+  
+        <app-following-list
+          *ngIf="activeTab == 'following'"
+          [following]='followingList'
+          [token]="token"
+          (getFollowing)="getFollowing($event)"
+        >
+        </app-following-list>
+  
+        <app-favorite-list
+        *ngIf="activeTab == 'favorite'"
+        [favorites]='favorites'
+        >
+        </app-favorite-list>
+      </div>
+    </div>
+    
+        
+
+    

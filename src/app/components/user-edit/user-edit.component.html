@@ -1,0 +1,54 @@
+<div class="col-md-12 mt-3">
+    <h1>{{title_page}}</h1>
+    <div class=" alert alert-success col-md-5 mt-3" *ngIf="status == 'success'">
+        Los datos se han guardado correctamente !!
+    </div>
+    <div class=" alert alert-danger col-md-5" *ngIf="status == 'error'">
+        Los datos no se han guardado correctamente !!
+    </div>
+    <form class="col-md-5 ml-0 pl-0" #userEditForm="ngForm" (ngSubmit)="onSubmit(userEditForm)">
+        <div class="form-group">
+            <label for="name">Nombre</label>
+            <input type="text" name="name" id="name" class="form-control" #name="ngModel" [(ngModel)]="user.name" required pattern="[a-zA-Z]+">
+            <span *ngIf="!name.valid && name.touched" class="invalid-feedback d-block">
+                El nombre no es válido
+            </span>
+        </div>
+        <div class="form-group">
+            <label for="surname">Apellidos</label>
+            <input type="text" name="surname" id="surname" class="form-control" #surname="ngModel" [(ngModel)]="user.surname" required>
+            <span *ngIf="!surname.valid && surname.touched" class="invalid-feedback d-block">
+                Los apellido no es válido
+            </span>
+        </div>
+        <div class="form-group">
+            <label for="email">Correo</label>
+            <input type="email" name="email" id="email" class="form-control" #email="ngModel" [(ngModel)]="user.email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+            <span *ngIf="!email.valid && email.touched" class="invalid-feedback d-block">
+                El email no es válido
+            </span>
+        </div>
+        <div class="form-group">
+            <label for="description">Biografía</label>
+            <textarea [froalaEditor]="froala_options" name="description" class="form-control" #description="ngModel" [(ngModel)]="user.description">
+            </textarea>
+                <span *ngIf="!description.valid && description.touched" class="invalid-feedback d-block">
+                El email no es válido
+            </span>
+        </div>
+        <div class="form-group">
+            <label for="image">Avatar</label>
+            <div *ngIf="identity && identity.image">
+                <img src="{{'http://127.0.0.1:8000/images/' + identity.image}}" class="avatar_edit">
+            </div>
+            <angular-file-uploader
+                [config]="afuConfig"
+                [resetUpload]=resetVar
+                (ApiResponse)="avatarUpload($event)"
+            >
+            </angular-file-uploader>
+        </div>
+        <input type="submit" value="Registrarme" class="btn btn-success" [disabled]="userEditForm.invalid">
+    </form>
+</div>
+

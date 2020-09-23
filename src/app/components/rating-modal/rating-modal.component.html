@@ -1,0 +1,31 @@
+<div class="rating mt-3 mb-2">
+    <h2>Valoración </h2>
+    <div class="container-star">
+        <img *ngFor="let star of starsGeneral.stars" src="{{'assets/' + star.image}}" (click)="changeStatus(starsRatingOne, star.id)" alt="">
+    </div>
+</div>
+<a data-toggle="modal" [attr.data-target]="'#myModal' + modalId" class="btn btn-primary">Valorar</a> 
+
+<!-- Modal -->
+<div class="modal fade" id="{{ 'myModal'+ modalId }}" role="dialog">
+    <div class="modal-dialog" role="document">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Valoración de Artículo</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Valorar artículo <b>{{postTitle}}</b></p>
+                <div class="container-star">
+                    <img *ngFor="let star of starsRatingOne.stars" src="{{'assets/' + star.image}}" (click)="changeStatus(starsRatingOne, star.id)" alt="">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-success" (click)="createRating()" data-dismiss="modal">Enviar</a>
+                <button type="button" class="btn btn-light" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+

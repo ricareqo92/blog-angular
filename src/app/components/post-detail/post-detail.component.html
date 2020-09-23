@@ -1,0 +1,61 @@
+<div class="col-md-12" *ngIf="!post">
+    Cargando...   
+</div>
+<div class="col-md-12 mt-3 " *ngIf="post">
+   <h1>{{page_title}}</h1>
+   <hr>
+   <p>
+    <span class="badge bagde-primary">{{post.category.name}}</span> - <a [routerLink]="['/perfil', post.user.id]">{{post.user.name + ' ' + post.user.surname}}</a>
+   </p>
+   <!--imagen-->
+    
+    <div>
+        <div class="post-image mb-3" style="width: 300px;" *ngIf="post.image">
+            <img src="{{'http://127.0.0.1:8000/images/' + post.image}}" class="w-100">
+        </div>
+        <div class="post-image" *ngIf="!post.image">
+            <img src="assets/photo_default_2.png" class="w-100">
+        </div>
+        <span [innerHtml]="post.content">
+            {{post.content}}
+        </span>
+    </div>
+    
+    <hr>
+    <div class="list-group mt-3">
+        <div class="list-group-item" *ngFor="let comment of comments">
+            <div class="avatar_mask float-left mr-3">
+                <img src="{{'http://127.0.0.1:8000/images/' + comment.user.image}}" class="avatar_nav">
+            </div>
+            <span class="badge badge-secondary">{{comment.user.name + ' ' + comment.user.surname}}</span>
+            <span class="badge badge-light ml-2">
+                {{comment.created_at}}
+            </span>
+            <div class="clearfix"></div>
+            
+            <span class="d-block">
+                {{comment.description}}
+            </span>
+            <button (click)="deleteComment(comment.id)" class="btn btn-sm
+                btn-danger float-right" *ngIf="identity.sub == comment.user_id">
+                Borrar
+            </button>
+        </div>
+    </div>
+    <form class="col-md-5 mt-3 pl-0" #commentForm="ngForm" (ngSubmit)="saveComment(commentForm)">
+        <div class="form-group">
+            <label for="description">Cometario: </label>
+            <textarea name="description" id="description" class="form-control" #description="ngModel" [(ngModel)]="comment.description"></textarea>
+        </div>
+        <input type="submit" class="btn btn-success" value="Enviar">
+    </form>
+    <app-rating-modal
+        *ngIf="post"
+        [postId]="post.id"
+        [postTitle]="post.title"
+        [token]="token"
+   >
+   </app-rating-modal>
+  
+   
+</div>

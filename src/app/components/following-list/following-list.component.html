@@ -1,0 +1,20 @@
+<div class="col-md-12">
+    <h3>{{page_title}}</h3>
+
+    <ul class="list-group">
+        <li class="list-group-item" *ngFor="let following of followingList">
+            <!--imagen-->
+            <div class="avatar_mask_list float-left mr-3" *ngIf="following.user.image">
+                <img src="{{'http://127.0.0.1:8000/images/' + following.user.image}}" class="avatar_nav">
+            </div>
+            <div class="avatar_mask_list float-left mr-3" *ngIf="!following.user.image">
+                <img src="assets/imagen.png" class="avatar_nav">
+            </div>
+            <h4>
+                <a [routerLink]="['/perfil', following.user.id]">{{following.user.name + ' ' + following.user.surname}}</a>
+            </h4>
+            <a [routerLink]="['/perfil', following.user.id]" class="btn btn-sm btn-success float-left mx-auto d-block">Ver perfil</a>
+            <a (click)="unfollow(following)" class="btn btn-danger float-right mx-auto">Dejar</a>
+        </li>
+    </ul>
+</div>
